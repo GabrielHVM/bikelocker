@@ -1,5 +1,6 @@
 //import 'package:bikespace/pages/home.page.dart';
 import 'package:bikespace/pages/login.page.dart';
+import 'package:bikespace/pages/map.page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.ibmPlexSansTextTheme(),
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const MapPage(),
     );
   }
 }
