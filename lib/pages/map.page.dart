@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../repositories/locais.repository.dart';
+
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
 
@@ -24,12 +26,18 @@ class _MapPageState extends State<MapPage> {
   }
 
   void loadParking() async {
+    final locais = LocaisRepository().locais;
     Set<Marker> localMarkers = {};
-    Marker myLocation = Marker(
-        markerId: const MarkerId("Minha localização"),
-        position: _center,
-        draggable: false);
-    localMarkers.add(myLocation);
+    localMarkers.add(Marker(
+        markerId: const MarkerId("Minha Localização"), position: _center));
+    locais.forEach((local) async {
+      Marker myLocation = Marker(
+          markerId: MarkerId(local.nome),
+          position: LatLng(local.latitude, local.longitude),
+          icon: BitmapDescriptor.defaultMarkerWithHue(100),
+          draggable: false);
+      localMarkers.add(myLocation);
+    });
     setState(() {
       markers = localMarkers;
     });
@@ -120,7 +128,8 @@ class _MapPageState extends State<MapPage> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(target: _center, zoom: 15),
+              initialCameraPosition:
+                  CameraPosition(target: _center, zoom: 17.5),
               markers: markers,
             ),
             const SearchBar()
